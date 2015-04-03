@@ -113,6 +113,7 @@ class Config:
             traceback.print_exc()
             raise FatalError(_('could not load config defaults'))
 
+        cwd_config = os.path.join(os.getcwd(), 'jhbuildrc')
         old_config = os.path.join(os.path.expanduser('~'), '.jhbuildrc')
         new_config = os.path.join \
                          (os.environ.get \
@@ -133,7 +134,9 @@ class Config:
                                    ' to %(new_path)s.' \
                                    % {'old_path': old_config,
                                       'new_path': new_config}))
-            if os.path.exists(new_config):
+            if os.path.exists(cwd_config):
+                filename = cwd_config
+            elif os.path.exists(new_config):
                 filename = new_config
             elif os.path.exists(old_config):
                 filename = old_config
